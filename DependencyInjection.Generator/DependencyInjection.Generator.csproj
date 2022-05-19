@@ -6,7 +6,7 @@
 	  <LangVersion>latest</LangVersion>
 	  <Authors>zhangyulong</Authors>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild> <!-- Generates a package at build -->
-	  <PackageId>Pnct.Microsoft.DependencyInjection.Generator</PackageId>
+	  <PackageId>Dncy.Microsoft.DependencyInjection.Generator</PackageId>
 	  <IncludeBuildOutput>false</IncludeBuildOutput> <!-- Do not include the generator as a lib dependency -->
   </PropertyGroup>
 
