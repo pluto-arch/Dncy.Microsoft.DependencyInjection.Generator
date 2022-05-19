@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace DependencyInjectGenerator.InjectCodeGenerators;
+namespace Microsoft.Extensions.DependencyInjection.Generator;
 
-public class ScopedGenerator:CodeGeneratorBase
+internal class ScopedGenerator:CodeGeneratorBase
 {
     private static readonly Lazy<ScopedGenerator> _generator=new Lazy<ScopedGenerator>(()=>new ScopedGenerator());
 

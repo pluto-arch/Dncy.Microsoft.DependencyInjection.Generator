@@ -1,7 +1,6 @@
 ﻿using System;
-using DependencyInjectGenerator.InjectCodeGenerators;
 
-namespace DependencyInjectGenerator;
+namespace Microsoft.Extensions.DependencyInjection.Generator;
 
 internal class InjectCodeGeneratorFactory
 {

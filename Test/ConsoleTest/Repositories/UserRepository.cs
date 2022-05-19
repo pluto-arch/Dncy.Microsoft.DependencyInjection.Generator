@@ -1,4 +1,6 @@
-﻿namespace ConsoleTest.Repositories;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace ConsoleTest.Repositories;
 
 
 [Injectable(InjectLifeTime.Transient, typeof(IUserRepository))]

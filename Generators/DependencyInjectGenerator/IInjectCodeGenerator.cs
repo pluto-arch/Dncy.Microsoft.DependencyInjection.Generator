@@ -1,8 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace DependencyInjectGenerator;
+namespace Microsoft.Extensions.DependencyInjection.Generator;
 
-public interface IInjectCodeGenerator
+internal interface IInjectCodeGenerator
 {
     string Generate(INamedTypeSymbol type);
     string GenerateWithInterface(INamedTypeSymbol type, INamedTypeSymbol interfaceType);

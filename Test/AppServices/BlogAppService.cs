@@ -1,10 +1,8 @@
 ﻿
 
-
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AppServices;
-
 
 [Injectable(InjectLifeTime.Scoped,typeof(IBlogAppService))]
 public class BlogAppService:IBlogAppService

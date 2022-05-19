@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace DependencyInjectGenerator.InjectCodeGenerators;
+namespace Microsoft.Extensions.DependencyInjection.Generator;
 
-public class TransientGenerator:CodeGeneratorBase
+internal class TransientGenerator:CodeGeneratorBase
 {
     private static readonly Lazy<TransientGenerator> _generator=new Lazy<TransientGenerator>(()=>new TransientGenerator());
 

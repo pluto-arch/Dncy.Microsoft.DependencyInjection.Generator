@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 
-namespace DependencyInjectGenerator.InjectCodeGenerators;
+namespace Microsoft.Extensions.DependencyInjection.Generator;
 
-public class CodeGeneratorBase:IInjectCodeGenerator
+internal class CodeGeneratorBase:IInjectCodeGenerator
 {
     public string Generate(INamedTypeSymbol type)
     {

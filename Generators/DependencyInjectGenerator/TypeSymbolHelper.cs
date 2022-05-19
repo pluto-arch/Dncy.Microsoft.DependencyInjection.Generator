@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.CodeAnalysis;
 
-namespace DependencyInjectGenerator;
+namespace Microsoft.Extensions.DependencyInjection.Generator;
 
-public static class TypeSymbolHelper
+internal static class TypeSymbolHelper
 {
     public static string GetFullQualifiedName(this ISymbol symbol)
     {

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using DependencyInjectGenerator.SyntaxReceivers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace DependencyInjectGenerator
+namespace Microsoft.Extensions.DependencyInjection.Generator
 {
     [Generator]
     public class DependencyInjectGenerator:ISourceGenerator
@@ -22,8 +21,8 @@ namespace DependencyInjectGenerator
         public void Execute(GeneratorExecutionContext context)
         {
             var compilation = context.Compilation;
-            var mainMethod = compilation.GetEntryPoint(context.CancellationToken);
             var @namespace = "Microsoft.Extensions.DependencyInjection";
+            var injectCodeNamespace = compilation.Assembly.Name;
 
             var syntaxReceiver = (TypeSyntaxReceiver)context.SyntaxReceiver;
             var injectTargets = syntaxReceiver?.TypeDeclarationsWithAttributes;
@@ -50,18 +49,19 @@ namespace DependencyInjectGenerator
                 var hasInjectAttribute = targetType?.GetAttributes().Any(x => SymbolEqualityComparer.Default.Equals(x.AttributeClass, logAttribute)) ?? false;
                 if (!hasInjectAttribute)
                     continue;
-
                 targetTypes.Add(targetType);
-
             }
+
 
             try
             {
                 var injectStr = $@" 
-namespace Microsoft.Extensions.DependencyInjection {{
+using Microsoft.Extensions.DependencyInjection;
+
+namespace {injectCodeNamespace} {{
     public static class AutoInjectHelper
     {{
-        public static IServiceCollection AutoInject(this IServiceCollection service)
+        public static IServiceCollection AutoInject{injectCodeNamespace.Replace(".","_")}(this IServiceCollection service)
         {{";
                 var sb = new StringBuilder(injectStr);
 
@@ -85,7 +85,7 @@ namespace Microsoft.Extensions.DependencyInjection {{
                 context.ReportDiagnostic(
                     Diagnostic.Create(
                         "AUTODI_01",
-                        "Log generator",
+                        "DependencyInject Generator",
                         $"生成注入代码失败，{e.Message}",
                         defaultSeverity: DiagnosticSeverity.Error,
                         severity: DiagnosticSeverity.Error,
@@ -164,37 +164,36 @@ namespace Microsoft.Extensions.DependencyInjection {{
                 return null;
             return InjectCodeGeneratorFactory.GetGenerator(lifeTime).Generate((INamedTypeSymbol)implType);
         }
-
+         
 
         private string GeneratorInjectAttributeCode(GeneratorExecutionContext context, string @namespace)
         {
             var injectCodeStr = $@"
-            using System.AttributeUsage;
-            namespace {@namespace}
-            {{
-                public enum InjectLifeTime
-                {{
-                    Scoped=0x01,
-                    Singleton=0x02,
-                    Transient=0x03
-                }}
+namespace {@namespace}
+{{
+    internal enum InjectLifeTime
+    {{
+        Scoped=0x01,
+        Singleton=0x02,
+        Transient=0x03
+    }}
 
-                [AttributeUsage(AttributeTargets.Class)]
-                public class InjectableAttribute:System.Attribute
-                {{ 
-                    public InjectableAttribute(InjectLifeTime lifeTime,Type interfactType=null)
-                    {{
-                        LifeTime = lifeTime;
-                        InterfactType=interfactType;
-                    }}
+    [System.AttributeUsage(AttributeTargets.Class)]
+    internal class InjectableAttribute:System.Attribute
+    {{ 
+        public InjectableAttribute(InjectLifeTime lifeTime,Type interfactType=null)
+        {{
+            LifeTime = lifeTime;
+            InterfactType=interfactType;
+        }}
 		        
-                    public InjectLifeTime LifeTime {{get;}}
+        public InjectLifeTime LifeTime {{get;}}
 
-                    public Type InterfactType {{get;}}
-                }}
-            }}";
+        public Type InterfactType {{get;}}
+    }}
+}}";
 
-            context.AddSource("AutoInjectAttribute.g.cs", injectCodeStr.Trim());
+            context.AddSource("AutoInjectAttribute.g.cs", injectCodeStr);
             return injectCodeStr;
         }
 

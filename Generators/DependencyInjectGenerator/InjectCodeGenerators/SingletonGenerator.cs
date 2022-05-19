@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace DependencyInjectGenerator.InjectCodeGenerators;
+namespace Microsoft.Extensions.DependencyInjection.Generator;
 
-public class SingletonGenerator:CodeGeneratorBase
+internal class SingletonGenerator:CodeGeneratorBase
 {
 
     private static readonly Lazy<SingletonGenerator> _generator=new Lazy<SingletonGenerator>(()=>new SingletonGenerator());
