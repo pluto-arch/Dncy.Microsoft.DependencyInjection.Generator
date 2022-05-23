@@ -2,9 +2,9 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Microsoft.Extensions.DependencyInjection.Generator
+namespace Dncy.MicrosoftDependencyInjection.Generator.SyntaxReceivers
 {
-    internal class TypeSyntaxReceiver:ISyntaxReceiver
+    internal class TypeSyntaxReceiver : ISyntaxReceiver
     {
 
         public HashSet<TypeDeclarationSyntax> TypeDeclarationsWithAttributes { get; } = new();

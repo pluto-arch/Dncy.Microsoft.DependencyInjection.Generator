@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace Microsoft.Extensions.DependencyInjection.Generator;
+namespace Dncy.MicrosoftDependencyInjection.Generator;
 
 internal interface IInjectCodeGenerator
 {

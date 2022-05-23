@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace Microsoft.Extensions.DependencyInjection.Generator;
+namespace Dncy.MicrosoftDependencyInjection.Generator.InjectCodeGenerators;
 
-internal class SingletonGenerator:CodeGeneratorBase
+internal class SingletonGenerator : CodeGeneratorBase
 {
 
-    private static readonly Lazy<SingletonGenerator> _generator=new Lazy<SingletonGenerator>(()=>new SingletonGenerator());
+    private static readonly Lazy<SingletonGenerator> _generator = new Lazy<SingletonGenerator>(() => new SingletonGenerator());
 
     public static SingletonGenerator Instrance = _generator.Value;
 
-    private SingletonGenerator(){}
+    private SingletonGenerator() { }
 
     /// <inheritdoc />
     public override string LifeTimeMethod => "AddSingleton";

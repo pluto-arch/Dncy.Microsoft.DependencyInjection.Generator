@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Dncy.MicrosoftDependencyInjection.Generator.SyntaxReceivers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Microsoft.Extensions.DependencyInjection.Generator
+namespace Dncy.MicrosoftDependencyInjection.Generator
 {
     [Generator]
-    public class DependencyInjectGenerator:ISourceGenerator
+    public class DependencyInjectGenerator : ISourceGenerator
     {
         /// <inheritdoc />
         public void Initialize(GeneratorInitializationContext context)
@@ -27,7 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection.Generator
             var syntaxReceiver = (TypeSyntaxReceiver)context.SyntaxReceiver;
             var injectTargets = syntaxReceiver?.TypeDeclarationsWithAttributes;
 
-            if (injectTargets == null||!injectTargets.Any())
+            if (injectTargets == null || !injectTargets.Any())
             {
                 return;
             }
@@ -35,7 +36,7 @@ namespace Microsoft.Extensions.DependencyInjection.Generator
             var injectCodeStr = GeneratorInjectAttributeCode(context, @namespace);
 
             var options = (CSharpParseOptions)compilation.SyntaxTrees.First().Options;
-            var logSyntaxTree = CSharpSyntaxTree.ParseText(injectCodeStr,options);
+            var logSyntaxTree = CSharpSyntaxTree.ParseText(injectCodeStr, options);
             compilation = compilation.AddSyntaxTrees(logSyntaxTree);
             var logAttribute = compilation.GetTypeByMetadataName($"{@namespace}.InjectableAttribute");
             var targetTypes = new HashSet<ITypeSymbol>(SymbolEqualityComparer.Default);
@@ -61,23 +62,23 @@ using Microsoft.Extensions.DependencyInjection;
 namespace {injectCodeNamespace} {{
     public static class AutoInjectHelper
     {{
-        public static IServiceCollection AutoInject{injectCodeNamespace.Replace(".","_")}(this IServiceCollection service)
+        public static IServiceCollection AutoInject{injectCodeNamespace.Replace(".", "_")}(this IServiceCollection service)
         {{";
                 var sb = new StringBuilder(injectStr);
 
                 foreach (var targetType in targetTypes)
                 {
                     context.CancellationToken.ThrowIfCancellationRequested();
-                    var proxySource = GenerateInjectCode(targetType, @namespace,logAttribute);
+                    var proxySource = GenerateInjectCode(targetType, @namespace, logAttribute);
                     sb.AppendLine(proxySource);
                 }
 
-                var end =$@"  return  service; }}
+                var end = $@"  return  service; }}
     }}
 }}";
                 sb.Append(end);
 
-            
+
                 context.AddSource($"AutoInjectHelper.Inject.cs", sb.ToString());
             }
             catch (Exception e)
@@ -94,25 +95,25 @@ namespace {injectCodeNamespace} {{
             }
         }
 
-        private string GenerateInjectCode(ITypeSymbol targetType, string @namespace,INamedTypeSymbol attribute)
+        private string GenerateInjectCode(ITypeSymbol targetType, string @namespace, INamedTypeSymbol attribute)
         {
-            var attributeValue = targetType.GetAttributes().FirstOrDefault(x=>SymbolEqualityComparer.Default.Equals(x.AttributeClass,attribute));
-            if (attributeValue==null)
+            var attributeValue = targetType.GetAttributes().FirstOrDefault(x => SymbolEqualityComparer.Default.Equals(x.AttributeClass, attribute));
+            if (attributeValue == null)
             {
                 return null;
             }
 
             var attrobuitePropertys = attributeValue.ConstructorArguments;
-            var typeEnum = attrobuitePropertys.FirstOrDefault(x=>x.Kind==TypedConstantKind.Enum).Value;
-            var types = attrobuitePropertys.FirstOrDefault(x => x.Kind==TypedConstantKind.Type).Value as ITypeSymbol;
+            var typeEnum = attrobuitePropertys.FirstOrDefault(x => x.Kind == TypedConstantKind.Enum).Value;
+            var types = attrobuitePropertys.FirstOrDefault(x => x.Kind == TypedConstantKind.Type).Value as ITypeSymbol;
 
-            if (types==null)
+            if (types == null)
             {
-                return AddClassic(targetType,typeEnum);
+                return AddClassic(targetType, typeEnum);
             }
             else
             {
-                return AddWithInterface(targetType,types,typeEnum);
+                return AddWithInterface(targetType, types, typeEnum);
             }
 
         }
@@ -122,11 +123,11 @@ namespace {injectCodeNamespace} {{
             switch (typeEnum)
             {
                 case 0x01:
-                    return GetInjectCodeWithInterfact(impl,@interface,InjectCodeGeneratorFactory.EnumInjectLifeTime.Scoped);
+                    return GetInjectCodeWithInterfact(impl, @interface, InjectCodeGeneratorFactory.EnumInjectLifeTime.Scoped);
                 case 0x02:
-                    return GetInjectCodeWithInterfact(impl,@interface,InjectCodeGeneratorFactory.EnumInjectLifeTime.Singleton);
+                    return GetInjectCodeWithInterfact(impl, @interface, InjectCodeGeneratorFactory.EnumInjectLifeTime.Singleton);
                 case 0x03:
-                    return GetInjectCodeWithInterfact(impl,@interface,InjectCodeGeneratorFactory.EnumInjectLifeTime.Transient);
+                    return GetInjectCodeWithInterfact(impl, @interface, InjectCodeGeneratorFactory.EnumInjectLifeTime.Transient);
                 default:
                     return null;
             }
@@ -134,11 +135,11 @@ namespace {injectCodeNamespace} {{
 
 
 
-        private string GetInjectCodeWithInterfact(ITypeSymbol implType,ITypeSymbol interfaceType,InjectCodeGeneratorFactory.EnumInjectLifeTime lifeTime)
+        private string GetInjectCodeWithInterfact(ITypeSymbol implType, ITypeSymbol interfaceType, InjectCodeGeneratorFactory.EnumInjectLifeTime lifeTime)
         {
             if (implType == null)
                 return null;
-            return InjectCodeGeneratorFactory.GetGenerator(lifeTime).GenerateWithInterface((INamedTypeSymbol)implType,(INamedTypeSymbol)interfaceType);
+            return InjectCodeGeneratorFactory.GetGenerator(lifeTime).GenerateWithInterface((INamedTypeSymbol)implType, (INamedTypeSymbol)interfaceType);
         }
 
 
@@ -147,24 +148,24 @@ namespace {injectCodeNamespace} {{
             switch (typeEnum)
             {
                 case 0x01:
-                    return GetInjectCode(name,InjectCodeGeneratorFactory.EnumInjectLifeTime.Scoped);
+                    return GetInjectCode(name, InjectCodeGeneratorFactory.EnumInjectLifeTime.Scoped);
                 case 0x02:
-                    return GetInjectCode(name,InjectCodeGeneratorFactory.EnumInjectLifeTime.Singleton);
+                    return GetInjectCode(name, InjectCodeGeneratorFactory.EnumInjectLifeTime.Singleton);
                 case 0x03:
-                    return GetInjectCode(name,InjectCodeGeneratorFactory.EnumInjectLifeTime.Transient);
+                    return GetInjectCode(name, InjectCodeGeneratorFactory.EnumInjectLifeTime.Transient);
                 default:
                     return null;
             }
         }
 
-        
-        private string GetInjectCode(ITypeSymbol implType,InjectCodeGeneratorFactory.EnumInjectLifeTime lifeTime)
+
+        private string GetInjectCode(ITypeSymbol implType, InjectCodeGeneratorFactory.EnumInjectLifeTime lifeTime)
         {
             if (implType == null)
                 return null;
             return InjectCodeGeneratorFactory.GetGenerator(lifeTime).Generate((INamedTypeSymbol)implType);
         }
-         
+
 
         private string GeneratorInjectAttributeCode(GeneratorExecutionContext context, string @namespace)
         {

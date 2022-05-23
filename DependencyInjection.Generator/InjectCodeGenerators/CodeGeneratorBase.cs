@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 
-namespace Microsoft.Extensions.DependencyInjection.Generator;
+namespace Dncy.MicrosoftDependencyInjection.Generator.InjectCodeGenerators;
 
-internal class CodeGeneratorBase:IInjectCodeGenerator
+internal class CodeGeneratorBase : IInjectCodeGenerator
 {
     public string Generate(INamedTypeSymbol type)
     {
@@ -17,25 +17,25 @@ internal class CodeGeneratorBase:IInjectCodeGenerator
             return $@"service.{LifeTimeMethod}<{type.GetFullQualifiedName()}>();";
         }
 
-        var typePa=type.TypeArguments;
+        var typePa = type.TypeArguments;
         var typeParames = new List<string>();
         foreach (var item in typePa)
         {
             typeParames.Add(item.GetFullQualifiedName());
         }
 
-        return $@"service.{LifeTimeMethod}<{type.GetFullQualifiedName()}<{string.Join(",",typeParames)}>>();";
+        return $@"service.{LifeTimeMethod}<{type.GetFullQualifiedName()}<{string.Join(",", typeParames)}>>();";
     }
 
 
     public string GenerateWithInterface(INamedTypeSymbol type, INamedTypeSymbol interfaceType)
     {
-        if (!type.IsGenericType&&!interfaceType.IsGenericType)
+        if (!type.IsGenericType && !interfaceType.IsGenericType)
         {
             return $@"service.{LifeTimeMethod}<{interfaceType.GetFullQualifiedName()},{type.GetFullQualifiedName()}>();";
         }
 
-        if (interfaceType.IsGenericType&&type.IsGenericType)
+        if (interfaceType.IsGenericType && type.IsGenericType)
         {
             var typeArguments = interfaceType.TypeArguments;
             var commas = typeArguments.Length - 1;
@@ -49,15 +49,15 @@ internal class CodeGeneratorBase:IInjectCodeGenerator
         }
 
 
-        if (interfaceType.IsGenericType&&!type.IsGenericType)
+        if (interfaceType.IsGenericType && !type.IsGenericType)
         {
-            var typePa=interfaceType.TypeArguments;
+            var typePa = interfaceType.TypeArguments;
             var typeParames = new List<string>();
             foreach (var item in typePa)
             {
                 typeParames.Add(item.GetFullQualifiedName());
             }
-            return $@"service.{LifeTimeMethod}<{interfaceType.GetFullQualifiedName()}<{string.Join(",",typeParames)}>,{type.GetFullQualifiedName()}>();";
+            return $@"service.{LifeTimeMethod}<{interfaceType.GetFullQualifiedName()}<{string.Join(",", typeParames)}>,{type.GetFullQualifiedName()}>();";
         }
 
 

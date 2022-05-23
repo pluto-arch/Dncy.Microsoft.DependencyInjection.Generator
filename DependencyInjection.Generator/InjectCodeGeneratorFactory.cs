@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Dncy.MicrosoftDependencyInjection.Generator.InjectCodeGenerators;
+using System;
 
-namespace Microsoft.Extensions.DependencyInjection.Generator;
+namespace Dncy.MicrosoftDependencyInjection.Generator;
 
 internal class InjectCodeGeneratorFactory
 {
@@ -22,8 +23,8 @@ internal class InjectCodeGeneratorFactory
 
     internal enum EnumInjectLifeTime
     {
-        Scoped=0x01,
-        Singleton=0x02,
-        Transient=0x03
+        Scoped = 0x01,
+        Singleton = 0x02,
+        Transient = 0x03
     }
 }

@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace Microsoft.Extensions.DependencyInjection.Generator;
+namespace Dncy.MicrosoftDependencyInjection.Generator.InjectCodeGenerators;
 
-internal class TransientGenerator:CodeGeneratorBase
+internal class TransientGenerator : CodeGeneratorBase
 {
-    private static readonly Lazy<TransientGenerator> _generator=new Lazy<TransientGenerator>(()=>new TransientGenerator());
+    private static readonly Lazy<TransientGenerator> _generator = new Lazy<TransientGenerator>(() => new TransientGenerator());
 
     public static TransientGenerator Instrance = _generator.Value;
 
-    private TransientGenerator(){}
+    private TransientGenerator() { }
 
-    
+
     /// <inheritdoc />
     public override string LifeTimeMethod => "AddTransient";
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.CodeAnalysis;
 
-namespace Dncy.MicrosoftDependencyInjection.Generator;
+namespace Dncy.AspNetCoreController.Generator;
 
 internal static class TypeSymbolHelper
 {
@@ -10,6 +10,17 @@ internal static class TypeSymbolHelper
         var containingNamespace = symbol.ContainingNamespace;
         if (!containingNamespace.IsGlobalNamespace)
             return containingNamespace.ToDisplayString() + "." + symbol.Name;
+
+        return symbol.Name;
+    }
+
+
+
+    public static string GetNameSpzce(this ISymbol symbol)
+    {
+        var containingNamespace = symbol.ContainingNamespace;
+        if (!containingNamespace.IsGlobalNamespace)
+            return containingNamespace.ToDisplayString();
 
         return symbol.Name;
     }
