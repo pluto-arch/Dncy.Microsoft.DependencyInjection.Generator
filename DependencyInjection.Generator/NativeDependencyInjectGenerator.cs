@@ -10,11 +10,15 @@ using Microsoft.CodeAnalysis.CSharp;
 namespace Dncy.MicrosoftDependencyInjection.Generator
 {
     [Generator]
-    public class DependencyInjectGenerator : ISourceGenerator
+    public class NativeDependencyInjectGenerator : ISourceGenerator
     {
         /// <inheritdoc />
         public void Initialize(GeneratorInitializationContext context)
         {
+            if (!Debugger.IsAttached)
+            {
+                Debugger.Launch();
+            }
             context.RegisterForSyntaxNotifications(() => new TypeSyntaxReceiver());
         }
 
@@ -38,16 +42,20 @@ namespace Dncy.MicrosoftDependencyInjection.Generator
             var options = (CSharpParseOptions)compilation.SyntaxTrees.First().Options;
             var logSyntaxTree = CSharpSyntaxTree.ParseText(injectCodeStr, options);
             compilation = compilation.AddSyntaxTrees(logSyntaxTree);
-            var logAttribute = compilation.GetTypeByMetadataName($"{@namespace}.InjectableAttribute");
+            var attribute = compilation.GetTypeByMetadataName($"{@namespace}.InjectableAttribute");
             var targetTypes = new HashSet<ITypeSymbol>(SymbolEqualityComparer.Default);
 
             foreach (var targetTypeSyntax in injectTargets)
             {
                 context.CancellationToken.ThrowIfCancellationRequested();
-
                 var semanticModel = compilation.GetSemanticModel(targetTypeSyntax.SyntaxTree);
                 var targetType = semanticModel.GetDeclaredSymbol(targetTypeSyntax);
-                var hasInjectAttribute = targetType?.GetAttributes().Any(x => SymbolEqualityComparer.Default.Equals(x.AttributeClass, logAttribute)) ?? false;
+                if (targetType?.DeclaredAccessibility!=Accessibility.Public)
+                {
+                    continue;
+                }
+
+                var hasInjectAttribute = targetType?.GetAttributes().Any(x => SymbolEqualityComparer.Default.Equals(x.AttributeClass, attribute)) ?? false;
                 if (!hasInjectAttribute)
                     continue;
                 targetTypes.Add(targetType);
@@ -69,7 +77,7 @@ namespace {injectCodeNamespace} {{
                 foreach (var targetType in targetTypes)
                 {
                     context.CancellationToken.ThrowIfCancellationRequested();
-                    var proxySource = GenerateInjectCode(targetType, @namespace, logAttribute);
+                    var proxySource = GenerateInjectCode(targetType, @namespace, attribute);
                     sb.AppendLine(proxySource);
                 }
 

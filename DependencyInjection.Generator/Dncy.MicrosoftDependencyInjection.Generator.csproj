@@ -20,7 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Remove="bin\Debug\netstandard2.0\\DependencyInjectGenerator.dll" />
+		<None Remove="bin" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -31,11 +31,6 @@
 	<ItemGroup>
 		<Folder Include="SyntaxReceivers\" />
 		<Folder Include="InjectCodeGenerators\" />
-	</ItemGroup>
-
-
-	<ItemGroup>
-		<Service Include="{D15B0B2D-D936-4249-9848-4FFB97A890D0}" />
 	</ItemGroup>
 
 </Project>

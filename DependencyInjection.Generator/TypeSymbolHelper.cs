@@ -13,4 +13,14 @@ internal static class TypeSymbolHelper
 
         return symbol.Name;
     }
+
+    
+    public static string GetNameSpzce(this ISymbol symbol)
+    {
+        var containingNamespace = symbol.ContainingNamespace;
+        if (!containingNamespace.IsGlobalNamespace)
+            return containingNamespace.ToDisplayString();
+
+        return symbol.Name;
+    }
 }

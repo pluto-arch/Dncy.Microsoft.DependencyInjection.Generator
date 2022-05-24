@@ -6,21 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace ApiTest.Controllers
 {
     [ApiController]
+    [AutoResolveDependency]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public partial class WeatherForecastController : ControllerBase
     {
+        [AutoInject]
         private readonly ILogger<WeatherForecastController> _logger;
 
+        [AutoInject]
         private readonly IBaseRepository<WeatherForecast> _baseRepository;
 
+        [AutoInject]
         private readonly ICustomeRepository _customeRepository;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IBaseRepository<WeatherForecast> baseRepository, ICustomeRepository customeRepository)
-        {
-            _logger = logger;
-            _baseRepository = baseRepository;
-            _customeRepository = customeRepository;
-        }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<string> Get()
@@ -37,10 +35,11 @@ namespace ApiTest.Controllers
     }
 
     [ApiController]
-    [AutoController]
+    [AutoResolveDependency]
     [Route("[controller]")]
     public partial class  DemoController
     {
+        [AutoInject]
         private readonly ILogger<DemoController> _logger;
 
         [HttpGet]
@@ -54,33 +53,32 @@ namespace ApiTest.Controllers
 
 
 
-   
-    [AutoController]
+    [AutoResolveDependency]
     public partial class  BaseController
     {
+        [AutoInject]
         protected readonly ILogger<BaseController> _logger;
     }
 
 
     [ApiController]
-    [AutoController]
+    [AutoResolveDependency]
     [Route("[controller]")]
-    public  class  ValueController:BaseController
+    public partial class  ValueController:ControllerBase
     {
+        [AutoInject]
+        private readonly IBaseRepository<WeatherForecast> _baseRepository;
+
+        [AutoInject]
+        private readonly ICustomeRepository _customeRepository;
+
 
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            _logger.LogInformation("12323112");
-            return new List<string>(){"123"};
-        }
-
-
-        /// <inheritdoc />
-        public ValueController(ILogger<BaseController> __logger) : base(__logger)
-        {
+            var weatherForecasts = _baseRepository.GetList();
+            return new List<string>() {"123"};
         }
     }
-
-
+    
 }
