@@ -1,34 +1,81 @@
 # 依赖注入代码自动生成器
 
-[nuget包](https://www.nuget.org/packages/Dncy.Microsoft.DependencyInjection.Generator/)
+1. [原生注入代码生成](https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator/blob/0f772d41226c6872a1e7aa7bc8c33f183545b713/DependencyInjection.Generator/AutoInject_README.md)
 
-使用`Microsoft.Extensions.DependencyInjection`时，可能需要批量注入某些服务，比较普遍的做法时使用反射扫描程序集然后注入，为了0反射。使用source generator进行自动生成注入的代码。
-
-## 使用方式
-
-1. 安装nuget
+### 注入使用示例：
+测试项目 ConsoleTest
 ```
-Install-Package Dncy.Microsoft.DependencyInjection.Generator -Version 0.0.1
-```
-
-2. 在需要生成注入代码的类上使用特性：`InjectableAttribute`
-
-`InjectableAttribute` 的参数：
-```
-/// <summary>
-/// </summary>
-/// <param name="lifeTime">生命周期，可选的值：Scoped、Singleton、Transient</param>
-/// <param name="interfactType">使用接口解析的时候的接口类型</param>
-public InjectableAttribute(InjectLifeTime lifeTime,Type interfactType=null)
+ [Injectable(InjectLifeTime.Scoped)]
+public class Demo
 {
+   public void Cw()
+   {
+      Console.WriteLine("Demo");
+   }
 }
+
+ [Injectable(InjectLifeTime.Scoped, typeof(IServiceA))]
+    public class ServiceA:IServiceA
+    {
+        public void Cw()
+        {
+            Console.WriteLine("IServiceA");
+        }
+    }
+// 以上两个都会有被注入
+
+var services = new ServiceCollection();
+services.AutoInjectConsoleTest(); // 这里扩展名称是：AutoInject+程序集名称方式
 ```
 
-3. 使用DI容器调用
 
-所有AutoInject的开头的扩展就是自动生成的注入代码。默认的后缀是使用对应程序集名称，如果程序集包含"."。则被替换成"_"。
+2. [原生注入解析代码生成](https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator/blob/0f772d41226c6872a1e7aa7bc8c33f183545b713/DependencyInjection.Generator/ConstructorResolve_README.md)
 
+### 构造函数解析使用示例：
 ```
-services.AutoInject<AssemblyName>();
+[ApiController]
+    [AutoResolveDependency]
+    [Route("[controller]")]
+    public partial class  ValueController:ControllerBase
+    {
+        [AutoInject]
+        private readonly IBaseRepository<WeatherForecast> _baseRepository;
+
+        [AutoInject]
+        private readonly ICustomeRepository _customeRepository;
+
+
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            var weatherForecasts = _baseRepository.GetList();
+            return new List<string>() {"123"};
+        }
+    }
 ```
+
+
+## 调试
+在调试的时候，目标项目需要引入生成器先项目，然后再csproj中加入：
+```
+<!--OutputItemType 必须为Analyzer 分析器  打包以后就不需要了-->
+<ItemGroup>
+    <ProjectReference Include="..\..\DependencyInjection.Generator\Dncy.MicrosoftDependencyInjection.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+```
+> 调试的时候 可能更改完不会生成最新的目标代码，需要重启vs，重新打开项目。
+> 打包后引入就不会出现这种问题了。
+
+
+## 打包
+对应项目的Csproj中需要添加一下节点配置
+```
+<ItemGroup>
+		<!-- Package the generator in the analyzer directory of the nuget package -->
+		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+	</ItemGroup>
+```
+
+
+
 
