@@ -54,3 +54,14 @@ services.AutoInjectConsoleTest(); // 这里扩展名称是：AutoInject+程序�
     }
 ```
 
+## 打包
+对应项目的Csproj中需要添加一下节点配置
+```
+<ItemGroup>
+		<!-- Package the generator in the analyzer directory of the nuget package -->
+		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+	</ItemGroup>
+```
+
+
+
