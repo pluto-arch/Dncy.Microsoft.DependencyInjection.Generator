@@ -11,7 +11,6 @@ namespace ConsoleTest
         static void Main(string[] args)
         {
             var services = new ServiceCollection();
-            services.AddScoped<Demo>();
             services.AutoInjectConsoleTest();
             var provider = services.BuildServiceProvider();
 
