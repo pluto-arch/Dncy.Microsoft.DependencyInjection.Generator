@@ -54,6 +54,19 @@ services.AutoInjectConsoleTest(); // 这里扩展名称是：AutoInject+程序�
     }
 ```
 
+
+## 调试
+在调试的时候，目标项目需要引入生成器先项目，然后再csproj中加入：
+```
+<!--OutputItemType 必须为Analyzer 分析器  打包以后就不需要了-->
+<ItemGroup>
+    <ProjectReference Include="..\..\DependencyInjection.Generator\Dncy.MicrosoftDependencyInjection.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+```
+> 调试的时候 可能更改完不会生成最新的目标代码，需要重启vs，重新打开项目。
+> 打包后引入就不会出现这种问题了。
+
+
 ## 打包
 对应项目的Csproj中需要添加一下节点配置
 ```
@@ -62,6 +75,7 @@ services.AutoInjectConsoleTest(); // 这里扩展名称是：AutoInject+程序�
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 ```
+
 
 
 
