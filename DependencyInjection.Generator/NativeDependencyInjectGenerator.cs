@@ -174,7 +174,7 @@ namespace {injectCodeNamespace} {{
             return InjectCodeGeneratorFactory.GetGenerator(lifeTime).Generate((INamedTypeSymbol)implType);
         }
 
-
+        
         private string GeneratorInjectAttributeCode(GeneratorExecutionContext context, string @namespace)
         {
             var injectCodeStr = $@"
@@ -187,10 +187,10 @@ namespace {@namespace}
         Transient=0x03
     }}
 
-    [System.AttributeUsage(AttributeTargets.Class)]
+    [System.AttributeUsage(System.AttributeTargets.Class)]
     internal class InjectableAttribute:System.Attribute
     {{ 
-        public InjectableAttribute(InjectLifeTime lifeTime,Type interfactType=null)
+        public InjectableAttribute(InjectLifeTime lifeTime,System.Type interfactType=null)
         {{
             LifeTime = lifeTime;
             InterfactType=interfactType;
@@ -198,7 +198,7 @@ namespace {@namespace}
 		        
         public InjectLifeTime LifeTime {{get;}}
 
-        public Type InterfactType {{get;}}
+        public System.Type InterfactType {{get;}}
     }}
 }}";
 

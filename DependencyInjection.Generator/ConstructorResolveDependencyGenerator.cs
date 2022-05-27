@@ -137,18 +137,17 @@ public class ConstructorResolveDependencyGenerator: ISourceGenerator
         context.AddSource($"{typeName}Inject.g.cs", sb.ToString());
     }
 
-
     private string GeneratorTargetTypeAttributeCode(GeneratorExecutionContext context, string defaultNameSpace)
     {
         var injectCodeStr = $@"
 namespace {defaultNameSpace}
 {{
-    [System.AttributeUsage(AttributeTargets.Class)]
+    [System.AttributeUsage(System.AttributeTargets.Class)]
     internal class AutoResolveDependencyAttribute:System.Attribute
     {{ 
     }}
 
-    [System.AttributeUsage(AttributeTargets.Field|AttributeTargets.Property)]
+    [System.AttributeUsage(System.AttributeTargets.Field|System.AttributeTargets.Property)]
     internal class AutoInjectAttribute:System.Attribute
     {{ 
     }}
