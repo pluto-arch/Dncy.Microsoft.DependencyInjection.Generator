@@ -15,10 +15,6 @@ namespace Dncy.MicrosoftDependencyInjection.Generator
         /// <inheritdoc />
         public void Initialize(GeneratorInitializationContext context)
         {
-            if (!Debugger.IsAttached)
-            {
-                Debugger.Launch();
-            }
             context.RegisterForSyntaxNotifications(() => new TypeSyntaxReceiver());
         }
 
