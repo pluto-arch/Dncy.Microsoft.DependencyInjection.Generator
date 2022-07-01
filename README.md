@@ -35,7 +35,7 @@ services.AutoInjectConsoleTest(); // 这里扩展名称是：AutoInject+程序�
 ### 构造函数解析使用示例：
 
 ```
-[ApiController]
+    [ApiController]
     [AutoResolveDependency]
     [Route("[controller]")]
     public partial class  ValueController:ControllerBase
@@ -55,6 +55,7 @@ services.AutoInjectConsoleTest(); // 这里扩展名称是：AutoInject+程序�
         }
     }
 ```
+> 支持类继承的解析
 
 ## 调试
 
