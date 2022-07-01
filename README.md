@@ -4,7 +4,7 @@
 
 ### 安装包
 ```
->PM Install-Package Dncy.DependencyInjection.Generator -Version 1.0.0
+PM> Install-Package Dncy.DependencyInjection.Generator -Version 1.0.0
 ```
 
 ### 注入使用示例：
