@@ -3,7 +3,9 @@
 1. [原生注入代码生成](https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator/blob/0f772d41226c6872a1e7aa7bc8c33f183545b713/DependencyInjection.Generator/AutoInject_README.md)
 
 ### 注入使用示例：
+
 测试项目 ConsoleTest
+
 ```
  [Injectable(InjectLifeTime.Scoped)]
 public class Demo
@@ -28,10 +30,10 @@ var services = new ServiceCollection();
 services.AutoInjectConsoleTest(); // 这里扩展名称是：AutoInject+程序集名称方式
 ```
 
-
 2. [原生注入解析代码生成](https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator/blob/0f772d41226c6872a1e7aa7bc8c33f183545b713/DependencyInjection.Generator/ConstructorResolve_README.md)
 
 ### 构造函数解析使用示例：
+
 ```
 [ApiController]
     [AutoResolveDependency]
@@ -54,28 +56,36 @@ services.AutoInjectConsoleTest(); // 这里扩展名称是：AutoInject+程序�
     }
 ```
 
-
 ## 调试
-在调试的时候，目标项目需要引入生成器先项目，然后再csproj中加入：
+
+在调试的时候，目标项目需要引入生成器先项目，然后再 csproj 中加入：
+
 ```
 <!--OutputItemType 必须为Analyzer 分析器  打包以后就不需要了-->
 <ItemGroup>
     <ProjectReference Include="..\..\DependencyInjection.Generator\Dncy.MicrosoftDependencyInjection.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 ```
-> 调试的时候 可能更改完不会生成最新的目标代码，需要重启vs，重新打开项目。
+
+然后在生成器的`Initialize`方法中使用`Debugger`
+
+```
+if (!Debugger.IsAttached)
+{
+    Debugger.Launch();
+}
+```
+
+> 调试的时候 可能更改完不会生成最新的目标代码，需要重启 vs，重新打开项目。
 > 打包后引入就不会出现这种问题了。
 
-
 ## 打包
-对应项目的Csproj中需要添加一下节点配置
+
+对应项目的 Csproj 中需要添加一下节点配置
+
 ```
 <ItemGroup>
 		<!-- Package the generator in the analyzer directory of the nuget package -->
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 ```
-
-
-
-
