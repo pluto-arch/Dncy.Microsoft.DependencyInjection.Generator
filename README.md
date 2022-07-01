@@ -2,10 +2,12 @@
 
 1. [原生注入代码生成](https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator/blob/main/Dncy.DependencyInjection.Generator/AutoInject_README.md)
 
-### 安装包
-```
-PM> Install-Package Dncy.DependencyInjection.Generator -Version 1.0.0
-```
+
+
+
+### Nuget包
+
+[![](https://img.shields.io/nuget/v/Dncy.DependencyInjection.Generator.svg)](https://www.nuget.org/packages/Dncy.DependencyInjection.Generator)
 
 ### 注入使用示例：
 
