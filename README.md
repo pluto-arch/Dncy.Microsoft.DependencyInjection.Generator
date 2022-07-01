@@ -2,6 +2,11 @@
 
 1. [原生注入代码生成](https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator/blob/main/Dncy.DependencyInjection.Generator/AutoInject_README.md)
 
+### 安装包
+```
+>PM Install-Package Dncy.DependencyInjection.Generator -Version 1.0.0
+```
+
 ### 注入使用示例：
 
 测试项目 ConsoleTest
