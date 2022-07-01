@@ -57,7 +57,7 @@ services.AutoInjectConsoleTest(); // 这里扩展名称是：AutoInject+程序�
 ```
 > 支持类继承的解析
 
-## 调试
+## 源码调试
 
 在调试的时候，目标项目需要引入生成器先项目，然后再 csproj 中加入：
 
