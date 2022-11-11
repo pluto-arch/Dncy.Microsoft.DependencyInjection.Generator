@@ -1,6 +1,13 @@
 # 依赖注入代码自动生成器
 
-1. [原生注入代码生成](https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator/blob/0f772d41226c6872a1e7aa7bc8c33f183545b713/DependencyInjection.Generator/AutoInject_README.md)
+1. [原生注入代码生成](https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator/blob/main/Dncy.DependencyInjection.Generator/AutoInject_README.md)
+
+
+
+
+### Nuget包
+
+[![](https://img.shields.io/nuget/v/Dncy.DependencyInjection.Generator.svg)](https://www.nuget.org/packages/Dncy.DependencyInjection.Generator)
 
 ### 注入使用示例：
 
@@ -30,12 +37,12 @@ var services = new ServiceCollection();
 services.AutoInjectConsoleTest(); // 这里扩展名称是：AutoInject+程序集名称方式
 ```
 
-2. [原生注入解析代码生成](https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator/blob/0f772d41226c6872a1e7aa7bc8c33f183545b713/DependencyInjection.Generator/ConstructorResolve_README.md)
+2. [原生注入解析代码生成](https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator/blob/main/Dncy.DependencyInjection.Generator/ConstructorResolve_README.md)
 
 ### 构造函数解析使用示例：
 
 ```
-[ApiController]
+    [ApiController]
     [AutoResolveDependency]
     [Route("[controller]")]
     public partial class  ValueController:ControllerBase
@@ -55,8 +62,9 @@ services.AutoInjectConsoleTest(); // 这里扩展名称是：AutoInject+程序�
         }
     }
 ```
+> 支持类继承的解析
 
-## 调试
+## 源码调试
 
 在调试的时候，目标项目需要引入生成器先项目，然后再 csproj 中加入：
 
