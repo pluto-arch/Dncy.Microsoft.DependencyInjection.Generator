@@ -9,13 +9,14 @@
 
   
 	<ItemGroup>
+		<PackageReference Include="Dncy.DependencyInjection.Generator" Version="1.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="ServiceA\" />
 	  <Folder Include="ServiceB\" />
 	</ItemGroup>
-	<ItemGroup>
+	<!--<ItemGroup>
 	  <ProjectReference Include="..\Dncy.DependencyInjection.Generator\Dncy.DependencyInjection.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-	</ItemGroup>
+	</ItemGroup>-->
 </Project>
