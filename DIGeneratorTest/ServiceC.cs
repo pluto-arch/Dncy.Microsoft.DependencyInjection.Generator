@@ -10,4 +10,7 @@ public partial class ServiceC:ServiceA.DemoService
     [AutoInject]
     private readonly DemoA _demoA;
 
+
+    [AutoInject]
+    private readonly DemoA _demoA2;
 }

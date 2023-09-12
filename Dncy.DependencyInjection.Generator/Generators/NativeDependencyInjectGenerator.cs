@@ -67,7 +67,7 @@ public class NativeDependencyInjectGenerator : ISourceGenerator
             namespace {injectCodeNamespace} 
             {{
                 /// <summary>
-                /// erviceCollection extension with auto generator inject coe
+                /// extension with auto generator inject coe
                 /// </summary>
                 public static class AutoInjectHelper
                 {{

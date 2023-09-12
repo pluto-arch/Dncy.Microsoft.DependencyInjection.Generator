@@ -143,7 +143,7 @@ public class ConstructorResolveDependencyGenerator : ISourceGenerator
         sb.AppendLine($@"public partial class  {typeName}");
         sb.AppendLine("{");
         sb.AppendLine("/// <summary>");
-        sb.AppendLine($"/// Initialize an instance of <cref href={typeName}/>");
+        sb.AppendLine($"/// Initialize an instance of <see cref=\"{typeName}\"/>");
         sb.AppendLine("/// </summary>");
         sb.AppendLine($@"public {typeName}(");
         sb.Append(string.Join(",", fields.Select(x => x.Item1)));
@@ -175,19 +175,25 @@ public class ConstructorResolveDependencyGenerator : ISourceGenerator
     private string GeneratorTargetTypeAttributeCode(GeneratorExecutionContext context, string defaultNameSpace)
     {
         var injectCodeStr = $@"
-namespace {defaultNameSpace}
-{{
-    [System.AttributeUsage(System.AttributeTargets.Class)]
-    internal class AutoResolveDependencyAttribute:System.Attribute
-    {{ 
-    }}
+        namespace {defaultNameSpace}
+        {{
+            /// <summary>
+            /// Mark classes are injected using automatically generated constructors
+            /// </summary>
+            [System.AttributeUsage(System.AttributeTargets.Class)]
+            internal class AutoResolveDependencyAttribute:System.Attribute
+            {{ 
+            }}
 
-    [System.AttributeUsage(System.AttributeTargets.Field|System.AttributeTargets.Property)]
-    internal class AutoInjectAttribute:System.Attribute
-    {{ 
-    }}
+            /// <summary>
+            /// Mark fields or properties are injected through the constructor
+            /// </summary>
+            [System.AttributeUsage(System.AttributeTargets.Field|System.AttributeTargets.Property)]
+            internal class AutoInjectAttribute:System.Attribute
+            {{ 
+            }}
 
-}}";
+        }}";
         context.AddSource("ResolveDependencyAttribute.g.cs", injectCodeStr);
         return injectCodeStr;
     }
