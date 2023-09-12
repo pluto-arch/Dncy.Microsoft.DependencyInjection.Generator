@@ -2,13 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-	  <Version>0.0.1</Version>
+	  <Version>1.1.1</Version>
 	  <LangVersion>latest</LangVersion>
 	  <Authors>pluto-arch</Authors>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild> 
 	  <PackageId>Dncy.DependencyInjection.Generator</PackageId>
 	  <IncludeBuildOutput>false</IncludeBuildOutput>
-	  <Version>1.0.0</Version>
 	  <Company>GitHub</Company>
 	  <PackageDescription>dotnet 依赖注入代码生成器</PackageDescription>
 	  <PackageLicenseFile>LICENSE</PackageLicenseFile>

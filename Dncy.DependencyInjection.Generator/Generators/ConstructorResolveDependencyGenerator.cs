@@ -142,6 +142,9 @@ public class ConstructorResolveDependencyGenerator : ISourceGenerator
         sb.AppendLine("{");
         sb.AppendLine($@"public partial class  {typeName}");
         sb.AppendLine("{");
+        sb.AppendLine("/// <summary>");
+        sb.AppendLine($"/// Initialize an instance of <cref href={typeName}/>");
+        sb.AppendLine("/// </summary>");
         sb.AppendLine($@"public {typeName}(");
         sb.Append(string.Join(",", fields.Select(x => x.Item1)));
         sb.AppendLine($@")");
