@@ -11,6 +11,8 @@
 	  <Company>GitHub</Company>
 	  <PackageDescription>dotnet 依赖注入代码生成器</PackageDescription>
 	  <PackageLicenseFile>LICENSE</PackageLicenseFile>
+	  <PackageProjectUrl>https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator</RepositoryUrl>
   </PropertyGroup>
 
 
