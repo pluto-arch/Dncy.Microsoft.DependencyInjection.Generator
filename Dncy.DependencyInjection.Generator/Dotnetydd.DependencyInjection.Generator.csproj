@@ -11,6 +11,8 @@
 	  <Company>GitHub</Company>
 	  <PackageDescription>dotnet 依赖注入代码生成器</PackageDescription>
 	  <PackageLicenseFile>LICENSE</PackageLicenseFile>
+	  <PackageProjectUrl>https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator</RepositoryUrl>
   </PropertyGroup>
 
 
@@ -19,7 +21,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" PrivateAssets="all" />
 	</ItemGroup>
 
 	<ItemGroup>
