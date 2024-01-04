@@ -1,18 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-	  <Version>1.1.2</Version>
-	  <LangVersion>latest</LangVersion>
-	  <Authors>pluto-arch</Authors>
-	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild> 
-	  <IncludeBuildOutput>false</IncludeBuildOutput>
-	  <Company>GitHub</Company>
-	  <PackageDescription>dotnet 依赖注入代码生成器</PackageDescription>
-	  <PackageLicenseFile>LICENSE</PackageLicenseFile>
-	  <PackageProjectUrl>https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator</PackageProjectUrl>
-	  <RepositoryUrl>https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator</RepositoryUrl>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Company>dotnetydd</Company>
+		<Authors>dotnetydd</Authors>
+		<LangVersion>latest</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<Company>GitHub</Company>
+		<PackageDescription>dotnet 依赖注入代码生成器</PackageDescription>
+		<PackageProjectUrl>https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/pluto-arch/Dncy.Microsoft.DependencyInjection.Generator</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Version>5.0.0</Version>
+		<OutputPath Condition="'$(Configuration)'=='Release'">.\build</OutputPath>
+	</PropertyGroup>
 
 
 	<ItemGroup>
@@ -33,7 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="InjectCodeGenerators\" />
+		<Folder Include="InjectCodeGenerators\" />
 	</ItemGroup>
 
 
